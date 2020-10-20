@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Beregner</title>
+    <meta name="description" content="Her kan du beregne dit BMI">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!--Dette er vores container div, som vi benytter til at centrere siden-->
+    <div id="container">
+
+        <!--Dette er vores indholdsdiv-->
+        <div id="content">
+            <h1>Beregn dit BMI her</h1>
+            <h2>Dit BMI har stor betydning for din risko for hjertekarsygdomme</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid doloribus quia neque hic ad voluptatum
+                iure illo, dolorum sequi eos animi beatae aspernatur, nam corrupti harum inventore a excepturi ea.</p>
+            <!--Dette div er til evt. fejlmeddelelser. Fx hvis brugeren ikke har indtastet noget i input felterne inden han klikker på beregn knappen
+        Skjult fra start med class="hide"-->
+            <div id="error" class="hide">Udfyld venlist højde og vægt!</div>
+            <!--Dette er vores resultat div hvor præsenterer resultatet af BMI beregningen for brugeren. Dette div er skjult fra start med class="hide"-->
+            <div id="result" class="hide">
+                <h3 id="resultatOverskrift"></h3>
+                <p id="resultatTekst"></p>
+                <button id="reset_btn">Beregn igen</button>
+            </div>
+            <!--dette er vores form div, som vi benytter til at centerjustere formularen og give den en baggrundsfarve. -->
+            <div id="formdiv">
+                <h3>Beregn BMI</h3>
+                <!--Form-->
+
+                <label for="hojde">Indtast din højde(cm)</label>
+                <input type="text" name="hojde" id="input_hojde" placeholder="Din højde i centimeter" required>
+                <label for="vaegt">Indtast din vægt</label>
+                <input type="text" name="vaegt" id="input_vaegt" placeholder="Din vægt i kg" required>
+                <button id="beregn_btn">Beregn</button>
+
+            </div>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente voluptates dolorum perferendis
+                perspiciatis vel illum dolores quas odio nesciunt, numquam recusandae similique eum modi, dicta
+                blanditiis rerum ullam omnis sit itaque soluta. Corporis ab ea ipsum veniam. Impedit veritatis tempora
+                libero voluptatibus possimus laboriosam, autem facere, maiores, dolore ipsa dicta consequuntur
+                voluptates ipsum ratione saepe natus qui doloremque nisi optio voluptatem amet dignissimos. Odit enim
+                sunt pariatur dicta quos, voluptatum maiores sequi sint omnis aspernatur sed libero odio natus
+                doloremque, quidem assumenda. Consectetur maxime cum tempora laboriosam quidem veniam dolorum quos,
+                magnam nostrum beatae eius aliquam reiciendis iste facilis corporis quod fuga a. Placeat, laudantium
+                facere. Aut dolores incidunt dignissimos itaque numquam obcaecati commodi alias reprehenderit quod
+                fugiat dicta quisquam eum, ut quis porro ea sunt, excepturi cum nobis in molestiae nisi. In odit eum
+                praesentium accusamus eius rerum. Cumque beatae, quibusdam possimus sapiente quis libero illum est odit,
+                eius aut perferendis doloribus officiis quaerat molestiae. Obcaecati dolor unde odio vitae sint
+                distinctio, molestiae doloremque. Quae aliquid fugiat veritatis alias dolore. Quidem odio fuga saepe!
+                Doloribus libero quia voluptates, nihil expedita voluptatum excepturi optio incidunt repellendus rerum.
+                Et cupiditate similique quas. Eius excepturi dolore tempora, quo pariatur voluptate accusantium quis.
+            </p>
+        </div>
+    </div>
+    <script>
+        // henter referencer til de forskellige html elementer, som vi skal manipulere med
+        var beregnKnap = document.getElementById('beregn_btn');
+        var resetKnap = document.getElementById('reset_btn');
+        var resultatbox = document.getElementById('result');
+        var resultatOverskrift = document.getElementById('resultatOverskrift');
+        var resultatTekst = document.getElementById('resultatTekst');
+        var fejlbox = document.getElementById('error');
+        var formbox = document.getElementById('formdiv');
+
+        //tilføjer eventlistener til beregn knap
+        beregnKnap.addEventListener('click', function () {
+            //console.log('beregn knap blev klikket');
+            var hojde = document.getElementById('input_hojde').value ;
+            var vaegt = document.getElementById('input_vaegt').value;
+            //console.log('højden er : ' + hojde + ' og vægten er : ' + vaegt);
+
+            //Tjekker om der er indtastet noget i input felterne
+            if (hojde !== '' && vaegt !== '') {
+                //laver bmi beregning
+                var BMI = vaegt / ((hojde / 100) * (hojde / 100));
+                //Sætter overskrift i resultat med innerHTML
+                resultatOverskrift.innerHTML = "Dit BMI er " + BMI.toFixed(2);
+                if (BMI >= 25) {
+                    resultatTekst.innerHTML = "Du er derfor overvægtig og bør gå på slankekur";
+                } else if (BMI <= 18.5) {
+                    resultatTekst.innerHTML = "Du er derfor undervægtig og bør gå på fedekur";
+                } else {
+                    resultatTekst.innerHTML = "Du er derfor normalvægtig og kan forstsætte med at spise som du plejer";
+                }
+                //skjuler fejlmeddelelse ved af tilføje class hide til elementet
+                fejlbox.classList.add('hide');
+                //viser resultatdiv ved af fjerne class hide fra elementet
+                resultatbox.classList.remove('hide');
+                //skjuler formular ved af tilføje class hide til elementet
+                formbox.classList.add('hide');
+                //console.log('højden er : ' + hojde + ' og vægten er : ' + vaegt);
+            } else {
+                fejlbox.classList.remove('hide');
+            }
+        })
+
+        //tilføjer eventlistener til reset knap
+        resetKnap.addEventListener('click', function () {
+            //Nulstiller input felter
+            document.getElementById('input_hojde').value = '';
+            document.getElementById('input_vaegt').value = '';
+
+            //skjuler resultatdiv ved af tilføje class hide til elementet
+            resultatbox.classList.add('hide');
+            //viser formular ved af fjerne class hide fra elementet
+            formbox.classList.remove('hide');
+        })
+
+
+    </script>
+
+</body>
+
+</html>
